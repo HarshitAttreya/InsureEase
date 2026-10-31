@@ -2,12 +2,15 @@
 FROM eclipse-temurin:21-jdk-alpine AS build
 WORKDIR /app
 
-# Copy maven wrapper & pom
+# Copy maven wrapper & configuration
 COPY .mvn/ .mvn/
 COPY mvnw pom.xml ./
-RUN ./mvnw dependency:go-offline -B
 
-# Copy source code and build
+# Grant executable permissions and convert line endings (fixes Windows CRLF & permission denied)
+RUN chmod +x mvnw && sed -i 's/\r$//' mvnw
+RUN ./mvmw dependency:go-offline -B
+
+# Copy source code and build JAR
 COPY src ./src
 RUN ./mvnw clean package -DskipTests
 
