@@ -8,7 +8,7 @@ COPY mvnw pom.xml ./
 
 # Grant executable permissions and convert line endings (fixes Windows CRLF & permission denied)
 RUN chmod +x mvnw && sed -i 's/\r$//' mvnw
-RUN ./mvmw dependency:go-offline -B
+RUN ./mvnw dependency:go-offline -B
 
 # Copy source code and build JAR
 COPY src ./src
